@@ -1,0 +1,101 @@
+#include <iostream>
+#include <stdio.h>
+#include <Windows.h>
+using namespace std;
+
+int mystrlen(char* arr) {
+	int i = 0;
+	for (; arr[i] != '\0'; i++) {}
+
+	return i;
+
+}
+
+void minm(char*& arr) {
+	int size = mystrlen(arr);
+	char* arr2 = new char[size + 1] {};
+	for (size_t i = 0; i < size; i++)
+	{
+		arr2[i] = arr[i];
+	}
+	delete[] arr;
+	arr = arr2;
+
+}
+
+
+
+struct USER {
+	char* username = new char[58];
+		char* password = new char[58];
+		int age = 0; 
+
+		~USER(){
+			delete[] username;
+			delete [] password ;
+	}
+
+};
+
+
+
+
+
+
+
+int main() {
+
+	/*Sign up, Sign in
+
+		Istifadeci username ve password ile qeydiyyatdan kechir.
+
+		Istifadeci username ve password ile girish ede bilmelidir.
+
+		username:tural password : tural123
+		username : ceyhun password : ceka123*/
+
+	FILE* file;
+	
+	
+	//writing //
+	USER* user1 = new USER();     
+	cout << "Enter name => ";  
+	cin.getline(user1->username, 100);  
+	minm(user1->username);  
+	Sleep(600); 
+	system("cls"); 
+	 
+	cout << "\n Enter password ";  
+	cin.getline(user1->password, 58);  
+	minm(user1->password);  
+	Sleep(600);  
+	system("cls");  
+	cout << "\nEnter age ";  
+	cin >> user1->age;  
+	Sleep(600); 
+	system("cls");  
+	cout << "You entered all data";
+	Sleep(600);
+	system("cls");
+	fopen_s(&file, "Binwrite.txt", "wb"); 
+
+	if (file != NULL) { 
+		fwrite(user1  , sizeof (USER), sizeof(user1), file); 
+		fclose(file);
+	}
+	else
+		cout << "NO FILE ";
+
+	fopen_s(&file, "Binwrite.txt", "rb");
+
+	USER *user2 = new USER;
+	if (file != nullptr) {
+		fread(user1, sizeof(USER), sizeof(user1), file);
+		fclose(file);
+	}
+	
+
+	cout << "Username " << user1->username<<endl;
+	cout << "PAsword " << user1->password<<endl;
+	cout << "Age " << user1->age << endl;
+}
